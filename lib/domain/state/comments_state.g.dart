@@ -33,6 +33,19 @@ mixin _$CommentsState on CommentsStateBase, Store {
         .run(() => super.getPostComments(postId));
   }
 
+  final _$createPostCommentAsyncAction =
+      AsyncAction('CommentsStateBase.createPostComment');
+
+  @override
+  Future<void> createPostComment(
+      {@required int postId,
+      @required String name,
+      @required String email,
+      @required String body}) {
+    return _$createPostCommentAsyncAction.run(() => super.createPostComment(
+        postId: postId, name: name, email: email, body: body));
+  }
+
   @override
   String toString() {
     return '''

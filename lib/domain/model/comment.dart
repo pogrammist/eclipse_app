@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 class Comment {
-  final int postId;
+  final dynamic postId; //bad api
   final int id;
   final String name;
   final String email;

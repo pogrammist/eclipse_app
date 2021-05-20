@@ -9,6 +9,7 @@ import 'package:eclipse_app/domain/model/photo.dart';
 import 'package:eclipse_app/domain/model/post.dart';
 import 'package:eclipse_app/domain/model/user.dart';
 
+import 'request/post_comment_body.dart';
 import 'service/eclipse_service.dart';
 
 class ApiUtil {
@@ -31,9 +32,28 @@ class ApiUtil {
     return PostMapper.fromApi(result);
   }
 
-  Future<List<Comment>> getPostComments(int commentId) async {
-    final result = await _eclipseService.getPostComments(commentId);
+  Future<List<Comment>> getPostComments(int postId) async {
+    final result = await _eclipseService.getPostComments(postId);
     return CommentMapper.fromApi(result);
+  }
+
+  Future<Comment> createPostComment({
+    int postId,
+    String name,
+    String email,
+    String body,
+  }) async {
+    final requestBody = PostCommentBody(
+      postId: postId,
+      name: name,
+      email: email,
+      body: body,
+    );
+    final result = await _eclipseService.createPostComment(
+      postId: postId,
+      requestBody: requestBody,
+    );
+    return CommentMapper.fromApi([result]).first;
   }
 
   Future<List<Album>> getUserAlbums(int userId) async {

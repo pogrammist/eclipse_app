@@ -4,6 +4,8 @@ import 'package:eclipse_app/domain/state/comments_state.dart';
 import 'package:eclipse_app/internal/dependencies/comments_module.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/comment_form.dart';
+
 class PostDetail extends StatefulWidget {
   final Post post;
 
@@ -107,6 +109,23 @@ class _PostDetailState extends State<PostDetail> {
           backgroundColor: Colors.red,
         ),
         body: _buildPostBody(context),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.pink[900],
+          onPressed: () => showModalBottomSheet(
+            context: context,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(16),
+                topLeft: Radius.circular(16),
+              ),
+            ),
+            backgroundColor: Colors.white,
+            builder: (BuildContext context) => CommentForm(
+              postId: widget.post.id,
+            ),
+          ),
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }

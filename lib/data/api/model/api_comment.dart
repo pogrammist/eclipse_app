@@ -1,5 +1,5 @@
 class ApiComment {
-  int postId;
+  dynamic postId; //bad api
   int id;
   String name;
   String email;

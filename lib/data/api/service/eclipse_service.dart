@@ -4,6 +4,7 @@ import 'package:eclipse_app/data/api/model/api_comment.dart';
 import 'package:eclipse_app/data/api/model/api_photo.dart';
 import 'package:eclipse_app/data/api/model/api_post.dart';
 import 'package:eclipse_app/data/api/model/api_user.dart';
+import 'package:eclipse_app/data/api/request/post_comment_body.dart';
 import 'package:flutter/foundation.dart';
 
 List<ApiUser> parseUsers(dynamic responseBody) {
@@ -79,12 +80,32 @@ class EclipseService {
     }
   }
 
-  Future<List<ApiComment>> getPostComments(int commentId) async {
-    final response = await _dio.get('posts/$commentId/comments');
+  Future<List<ApiComment>> getPostComments(int postId) async {
+    final response = await _dio.get('posts/$postId/comments');
     switch (response.statusCode) {
       case 200:
         print(response.data);
         return compute(parseComments, response.data);
+        break;
+      default:
+        throw response.data;
+        break;
+    }
+  }
+
+  Future<ApiComment> createPostComment({
+    @required int postId,
+    @required PostCommentBody requestBody,
+  }) async {
+    final formData = await requestBody.toApi();
+    final response = await _dio.post(
+      'posts/$postId/comments',
+      data: formData,
+    );
+    switch (response.statusCode) {
+      case 201:
+        print(response.data);
+        return ApiComment.fromJson(response.data);
         break;
       default:
         throw response.data;
